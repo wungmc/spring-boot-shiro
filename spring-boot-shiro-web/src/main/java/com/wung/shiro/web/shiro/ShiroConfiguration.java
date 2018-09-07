@@ -17,7 +17,7 @@ import java.util.LinkedHashMap;
 /**
  * @author wung 2018/9/7.
  */
-// @Configuration
+@Configuration
 public class ShiroConfiguration {
 	
 	@Bean(name = "shiroFilter")
@@ -34,7 +34,7 @@ public class ShiroConfiguration {
 		// 注意：过滤链需要保证有序，所以使用 LinkedHashMap
 		LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>(){{
 			// 表示可匿名访问
-			put("/jsp/login.jsp", "anon");
+			// put("/jsp/login.jsp", "anon");
 			// put("/loginUser", "anon");
 			// put("/logout*","anon");
 			// put("/jsp/error.jsp*","anon");

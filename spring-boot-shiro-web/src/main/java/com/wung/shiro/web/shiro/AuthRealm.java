@@ -16,6 +16,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.Iterator;
 
 /**
@@ -67,13 +68,15 @@ public class AuthRealm extends AuthorizingRealm {
 		
 		User user = iterator.next();
 		
-		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-		for (Role role : user.getRoles()) {
-			info.addRole(role.getRoleName());
-			for (Resource resource : role.getResources()) {
-				info.addStringPermission(resource.getPerm());
-			}
-		}
+		final SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+		user.getRoles().stream()
+				.map(Role::getRoleName)
+				.forEach(info::addRole);
+		user.getRoles().stream()
+				.map(Role::getResources)
+				.flatMap(Collection::stream)
+				.forEach(resource -> info.addStringPermission(resource.getPerm()));
+		
 		
 		return info;
 	}
