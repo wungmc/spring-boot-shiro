@@ -12,4 +12,12 @@
     <artifactId>spring-boot-shiro-service</artifactId>
 
 
+    <dependencies>
+        <dependency>
+            <groupId>com.wung</groupId>
+            <artifactId>spring-boot-shiro-dal</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+    </dependencies>
+
 </project>
