@@ -3,6 +3,7 @@
  */
 package com.wung.shiro.web.shiro;
 
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
@@ -34,18 +35,19 @@ public class ShiroConfiguration {
 		// 注意：过滤链需要保证有序，所以使用 LinkedHashMap
 		LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>(){{
 			// 表示可匿名访问
-			// put("/jsp/login.jsp", "anon");
-			// put("/loginUser", "anon");
-			// put("/logout*","anon");
-			// put("/jsp/error.jsp*","anon");
-			// put("/jsp/index.jsp*","authc");
+			put("/login", "anon");
+			put("/loginUser", "anon");
+			put("/logout","authc");
+			put("/user/**", "authc");
 			// //表示需要认证才可以访问
-			// put("/*", "authc");
+			put("/*", "authc");
 			// //表示需要认证才可以访问
-			// put("/**", "authc");
-			// put("/*.*", "authc");
+			put("/**", "authc");
+			put("/*.*", "authc");
 		}};
 		// 上面的 anon, authc 等都是固定的名称，指代shiro提供的过滤器
+		// 这里只配置是否需要权限，例如：/user下的接口都需要授权，
+		// 但是具体某个接口需要什么授权，是在接口上使用 @RequiresPermissions 来控制的。
 		
 		bean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 		return bean;
@@ -78,6 +80,23 @@ public class ShiroConfiguration {
 	public CredentialsMatcher credentialsMatcher() {
 		return new CredentialsMatcher();
 	}
+	
+	/**
+	 * 也可以使用预定义的 HashedCredentialsMatcher，这个类是为了对密码进行编码的，
+	 * 防止密码在数据库里明码保存，当然在登陆认证的时候，
+	 * 这个类也负责对form里输入的密码进行编码。
+	 */
+	// @Bean(name = "hashedCredentialsMatcher")
+	// public HashedCredentialsMatcher hashedCredentialsMatcher() {
+	// 	HashedCredentialsMatcher credentialsMatcher = new HashedCredentialsMatcher();
+	// 	credentialsMatcher.setHashAlgorithmName("MD5");
+	// 	credentialsMatcher.setHashIterations(2);
+	// 	credentialsMatcher.setStoredCredentialsHexEncoded(true);
+	// 	return credentialsMatcher;
+	// }
+	
+	// 缓存初始化定义
+	
 	
 	/**
 	 * Shiro生命周期处理器

@@ -10,6 +10,7 @@ import org.apache.shiro.authc.credential.SimpleCredentialsMatcher;
 
 /**
  * 密码验证
+ * 一般情况可以使用预定义的 HashedCredentialsMatcher 对密码进行加密处理
  *
  * @author wung 2018/9/7.
  */
