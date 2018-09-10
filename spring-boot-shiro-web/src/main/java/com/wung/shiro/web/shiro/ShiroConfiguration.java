@@ -42,8 +42,8 @@ public class ShiroConfiguration {
 			// //表示需要认证才可以访问
 			put("/*", "authc");
 			// //表示需要认证才可以访问
-			put("/**", "authc");
-			put("/*.*", "authc");
+			// put("/**", "authc");
+			// put("/*.*", "authc");
 		}};
 		// 上面的 anon, authc 等都是固定的名称，指代shiro提供的过滤器
 		// 这里只配置是否需要权限，例如：/user下的接口都需要授权，

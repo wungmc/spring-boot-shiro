@@ -3,7 +3,6 @@
  */
 package com.wung.shiro.web.shiro;
 
-import com.wung.shiro.model.Resource;
 import com.wung.shiro.model.Role;
 import com.wung.shiro.model.User;
 import com.wung.shiro.service.UserService;
@@ -14,7 +13,6 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -33,6 +31,7 @@ public class AuthRealm extends AuthorizingRealm {
 	
 	/**
 	 * 登录认证
+	 * 登录的时候（subject.login(AuthenticationToken)）调用这个方法。
 	 *
 	 * @param token
 	 * @return
@@ -52,7 +51,9 @@ public class AuthRealm extends AuthorizingRealm {
 	}
 	
 	/**
-	 * 授权
+	 * 授权.
+	 * 如果请求的接口需要授权，则会调用这个方法获取用户的角色及权限集合。
+	 * 实际使用时肯定是要加缓存的，避免每次都查库。
 	 *
 	 * @param principals
 	 * @return

@@ -48,7 +48,7 @@ public class UserMapperImpl implements UserMapper {
 		if ("wung".equals(userName)) {
 			Role role = new Role();
 			role.setId(1);
-			role.setRoleName("管理员");
+			role.setRoleName("admin");
 			role.setResources(createResourcesByRoleId(1));
 			roles.add(role);
 			return roles;
@@ -56,7 +56,7 @@ public class UserMapperImpl implements UserMapper {
 		
 		Role role = new Role();
 		role.setId(2);
-		role.setRoleName("普通人员");
+		role.setRoleName("staff");
 		role.setResources(createResourcesByRoleId(2));
 		roles.add(role);
 		return roles;
