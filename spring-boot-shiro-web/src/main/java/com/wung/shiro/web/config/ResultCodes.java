@@ -24,6 +24,9 @@ public enum ResultCodes {
     OPERATION_REPEAT(20003, "重复操作"),
     OPERATION_FAIL(20004, "非法操作"),
 	
+	
+    DB_NOT_EXISTS(20030, "数据不存在"),
+	
     /**
      * 登录相关 2004X
      */

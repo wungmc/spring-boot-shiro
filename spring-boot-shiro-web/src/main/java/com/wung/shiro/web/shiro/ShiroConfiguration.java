@@ -66,9 +66,9 @@ public class ShiroConfiguration {
 	
 	
 	@Bean
-	public AuthRealm authRealm(CredentialsMatcher credentialsMatcher) {
+	public AuthRealm authRealm(HashedCredentialsMatcher hashedCredentialsMatcher) {
 		AuthRealm authRealm = new AuthRealm();
-		authRealm.setCredentialsMatcher(credentialsMatcher);
+		authRealm.setCredentialsMatcher(hashedCredentialsMatcher);
 		return authRealm;
 	}
 	
@@ -76,24 +76,22 @@ public class ShiroConfiguration {
 	 * 自定义密码比较器
 	 * @return
 	 */
-	@Bean
-	public CredentialsMatcher credentialsMatcher() {
-		return new CredentialsMatcher();
-	}
+	// @Bean
+	// public CredentialsMatcher credentialsMatcher() {
+	// 	return new CredentialsMatcher();
+	// }
 	
 	/**
 	 * 也可以使用预定义的 HashedCredentialsMatcher，这个类是为了对密码进行编码的，
 	 * 防止密码在数据库里明码保存，当然在登陆认证的时候，
 	 * 这个类也负责对form里输入的密码进行编码。
 	 */
-	// @Bean(name = "hashedCredentialsMatcher")
-	// public HashedCredentialsMatcher hashedCredentialsMatcher() {
-	// 	HashedCredentialsMatcher credentialsMatcher = new HashedCredentialsMatcher();
-	// 	credentialsMatcher.setHashAlgorithmName("MD5");
-	// 	credentialsMatcher.setHashIterations(2);
-	// 	credentialsMatcher.setStoredCredentialsHexEncoded(true);
-	// 	return credentialsMatcher;
-	// }
+	@Bean
+	public HashedCredentialsMatcher hashedCredentialsMatcher() {
+		HashedCredentialsMatcher credentialsMatcher = new HashedCredentialsMatcher();
+		credentialsMatcher.setHashAlgorithmName("MD5");
+		return credentialsMatcher;
+	}
 	
 	// 缓存初始化定义
 	

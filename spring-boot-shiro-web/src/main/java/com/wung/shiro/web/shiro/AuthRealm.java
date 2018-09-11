@@ -3,6 +3,7 @@
  */
 package com.wung.shiro.web.shiro;
 
+import com.wung.shiro.model.Resource;
 import com.wung.shiro.model.Role;
 import com.wung.shiro.model.User;
 import com.wung.shiro.service.UserService;
@@ -16,6 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 使用shiro必须建立的类。
@@ -42,9 +46,10 @@ public class AuthRealm extends AuthorizingRealm {
 		// 获取用户输入的token
 		UsernamePasswordToken uToken = (UsernamePasswordToken) token;
 		String userName = uToken.getUsername();
-		System.out.println("输入的 userName = " + userName + ", password=" + uToken.getPassword());
+		System.out.println("输入的 userName = " + userName);
 		
-		User user = userService.findByUserName(userName);
+		Optional<User> userOptional = userService.findByUserName(userName);
+		User user = userOptional.orElseThrow(() -> new AuthenticationException("账号不存在！"));
 		
 		//放入shiro.调用CredentialsMatcher检验密码
 		return new SimpleAuthenticationInfo(user, user.getPassword(), getName());
@@ -70,11 +75,14 @@ public class AuthRealm extends AuthorizingRealm {
 		User user = iterator.next();
 		
 		final SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-		user.getRoles().stream()
+		Set<Role> roleSet = userService.findRoleByUserId(user.getId());
+		
+		roleSet.stream()
 				.map(Role::getRoleName)
 				.forEach(info::addRole);
-		user.getRoles().stream()
-				.map(Role::getResources)
+		roleSet.stream()
+				.map(Role::getId)
+				.map(roleId -> userService.findResourceByRoleId(roleId))
 				.flatMap(Collection::stream)
 				.forEach(resource -> info.addStringPermission(resource.getPerm()));
 		

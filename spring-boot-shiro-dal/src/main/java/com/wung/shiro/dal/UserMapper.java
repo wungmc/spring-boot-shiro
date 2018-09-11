@@ -3,7 +3,11 @@
  */
 package com.wung.shiro.dal;
 
+import com.wung.shiro.model.Resource;
+import com.wung.shiro.model.Role;
 import com.wung.shiro.model.User;
+
+import java.util.Set;
 
 /**
  *
@@ -12,5 +16,9 @@ import com.wung.shiro.model.User;
 public interface UserMapper {
 	
 	User findByUserName(String userName);
+	
+	Set<Role> findRoleByUserId(Integer id);
+	
+	Set<Resource> findResourceByRoleId(Integer id);
 	
 }

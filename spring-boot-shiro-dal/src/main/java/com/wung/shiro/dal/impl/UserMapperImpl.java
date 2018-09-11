@@ -20,36 +20,19 @@ public class UserMapperImpl implements UserMapper {
 	
 	@Override
 	public User findByUserName(String userName) {
+		System.out.println("数据库查询用户：" + userName);
 		return createUserByUserName(userName);
 	}
 	
-	private User createUserByUserName(String userName) {
-		if ("wung".equals(userName)) {
-			User user = new User();
-			user.setId(1);
-			user.setUserName(userName);
-			user.setRealName("王二");
-			user.setPassword("123");
-			user.setRoles(createRolesByUserName(userName));
-			return user;
-		}
+	@Override
+	public Set<Role> findRoleByUserId(Integer id) {
+		System.out.println("数据库查询用户角色：userId=" + id);
 		
-		User user = new User();
-		user.setId(2);
-		user.setUserName(userName);
-		user.setRealName("李四");
-		user.setPassword("1234");
-		user.setRoles(createRolesByUserName(userName));
-		return user;
-	}
-	
-	private Set<Role> createRolesByUserName(String userName) {
 		Set<Role> roles = new HashSet<>();
-		if ("wung".equals(userName)) {
+		if (id == 1) {
 			Role role = new Role();
 			role.setId(1);
 			role.setRoleName("admin");
-			role.setResources(createResourcesByRoleId(1));
 			roles.add(role);
 			return roles;
 		}
@@ -57,12 +40,14 @@ public class UserMapperImpl implements UserMapper {
 		Role role = new Role();
 		role.setId(2);
 		role.setRoleName("staff");
-		role.setResources(createResourcesByRoleId(2));
 		roles.add(role);
 		return roles;
 	}
 	
-	private Set<Resource> createResourcesByRoleId(Integer roleId) {
+	@Override
+	public Set<Resource> findResourceByRoleId(Integer roleId) {
+		System.out.println("数据库查询角色的资源：roleId=" + roleId);
+		
 		Set<Resource> resources = new HashSet<>();
 		if (roleId == 1) {
 			Resource resource = new Resource();
@@ -106,4 +91,32 @@ public class UserMapperImpl implements UserMapper {
 		
 		return resources;
 	}
+	
+	private User createUserByUserName(String userName) {
+		if ("wung".equals(userName)) {
+			User user = new User();
+			user.setId(1);
+			user.setUserName(userName);
+			user.setRealName("王二");
+			user.setPassword("123");
+			// 模拟数据库的密文（明文是123）
+			user.setPassword("202cb962ac59075b964b07152d234b70");
+			return user;
+		}
+		
+		// 模拟不存在的账号
+		if ("lisi".equals(userName)) {
+			return null;
+		}
+		
+		User user = new User();
+		user.setId(2);
+		user.setUserName(userName);
+		user.setRealName("李四");
+		user.setPassword("123");
+		// 模拟数据库的密文（明文是123）
+		user.setPassword("202cb962ac59075b964b07152d234b70");
+		return user;
+	}
+	
 }

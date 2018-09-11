@@ -6,13 +6,15 @@ package com.wung.shiro.web.controller;
 import com.wung.shiro.model.User;
 import com.wung.shiro.service.UserService;
 import com.wung.shiro.web.config.Result;
+import com.wung.shiro.web.config.ResultCodes;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
-import org.apache.shiro.authz.annotation.RequiresUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Optional;
 
 /**
  * @author wung 2018/9/10.
@@ -36,6 +38,7 @@ public class UserController {
 	
 	@RequestMapping("/delete")
 	@RequiresPermissions("user:delete")
+	@RequiresRoles(value = "admin")
 	public Result<Boolean> deleteUser(Integer id) {
 		System.out.println("delete user:" + id);
 		return Result.success(true);
@@ -53,12 +56,12 @@ public class UserController {
 	
 	@RequestMapping("/query")
 	@RequiresPermissions("user:query")
-	@RequiresRoles(value = "admin")
 	public Result<User> findUser(String userName) {
 		System.out.println("query user:" + userName);
-		User user = userService.findByUserName(userName);
-		System.out.println("查询结果：" + user);
-		return Result.success(user);
+		Optional<User> userOptional = userService.findByUserName(userName);
+		System.out.println("查询结果：" + userOptional);
+		
+		return userOptional.map(Result::success).orElseGet(() -> Result.failed(ResultCodes.DB_NOT_EXISTS));
 	}
 	
 	
