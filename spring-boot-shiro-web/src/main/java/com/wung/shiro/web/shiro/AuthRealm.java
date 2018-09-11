@@ -3,7 +3,6 @@
  */
 package com.wung.shiro.web.shiro;
 
-import com.wung.shiro.model.Resource;
 import com.wung.shiro.model.Role;
 import com.wung.shiro.model.User;
 import com.wung.shiro.service.UserService;
@@ -19,7 +18,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * 使用shiro必须建立的类。

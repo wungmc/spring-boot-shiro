@@ -4,6 +4,10 @@
 package com.wung.shiro.web.shiro;
 
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.cache.Cache;
+import org.apache.shiro.cache.CacheException;
+import org.apache.shiro.cache.CacheManager;
+import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
@@ -58,9 +62,12 @@ public class ShiroConfiguration {
 	 *
 	 */
 	@Bean
-	public SecurityManager securityManager(AuthRealm authRealm) {
+	public SecurityManager securityManager(AuthRealm authRealm, EhCacheManager ehCacheManager) {
 		DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
 		securityManager.setRealm(authRealm);
+		
+		// 使用缓存
+		securityManager.setCacheManager(ehCacheManager);
 		return securityManager;
 	}
 	
@@ -93,8 +100,15 @@ public class ShiroConfiguration {
 		return credentialsMatcher;
 	}
 	
-	// 缓存初始化定义
-	
+	/**
+	 * 缓存初始化定义
+	 */
+	@Bean
+	public EhCacheManager ehCacheManager() {
+		EhCacheManager ehCacheManager = new EhCacheManager();
+		ehCacheManager.setCacheManagerConfigFile("classpath:ehcache.xml");
+		return ehCacheManager;
+	}
 	
 	/**
 	 * Shiro生命周期处理器
