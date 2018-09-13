@@ -3,7 +3,6 @@
  */
 package com.wung;
 
-import com.wung.shiro.web.controller.UserController;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,7 +45,9 @@ public class AllControllerTest {
 		ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/index")
 			.param("id", "1")
 			.accept(MediaType.APPLICATION_JSON))
-				.andExpect(MockMvcResultMatchers.status().isOk());
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andDo(MockMvcResultHandlers.print())
+				;
 		
 		MvcResult mvcResult = resultActions.andReturn();
 		MockHttpServletResponse response = mvcResult.getResponse();
