@@ -9,7 +9,9 @@ import com.wung.shiro.model.Role;
 import com.wung.shiro.model.User;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -119,4 +121,34 @@ public class UserMapperImpl implements UserMapper {
 		return user;
 	}
 	
+	@Override
+	public List<User> findAll() {
+		List<User> list = new ArrayList<>(2);
+		User user = new User();
+		user.setId(1);
+		user.setUserName("wung");
+		user.setRealName("王二");
+		user.setPassword("123");
+		// 模拟数据库的密文（明文是123）
+		user.setPassword("202cb962ac59075b964b07152d234b70");
+		
+		User user1 = new User();
+		user1.setId(2);
+		user1.setUserName("test");
+		user1.setRealName("李四");
+		user1.setPassword("123");
+		// 模拟数据库的密文（明文是123）
+		user1.setPassword("202cb962ac59075b964b07152d234b70");
+		
+		list.add(user);
+		list.add(user1);
+		
+		try {
+			// 睡眠一秒，模拟耗时
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
 }

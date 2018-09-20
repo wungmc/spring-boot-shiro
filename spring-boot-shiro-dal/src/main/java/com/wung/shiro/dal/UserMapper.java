@@ -7,6 +7,7 @@ import com.wung.shiro.model.Resource;
 import com.wung.shiro.model.Role;
 import com.wung.shiro.model.User;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -20,5 +21,7 @@ public interface UserMapper {
 	Set<Role> findRoleByUserId(Integer id);
 	
 	Set<Resource> findResourceByRoleId(Integer id);
+	
+	List<User> findAll();
 	
 }
