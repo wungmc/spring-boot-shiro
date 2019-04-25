@@ -3,15 +3,17 @@
  */
 package com.wung.shiro.web;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
  * @author wung 2018/9/6.
  */
-@RestController
+@Controller
 public class IndexController {
 	
 	@RequestMapping("/hello")
@@ -20,7 +22,8 @@ public class IndexController {
 		return "hello";
 	}
 	
-	@RequestMapping("index")
+	@RequestMapping("/index")
+	@ResponseBody
 	public String index(Integer id) {
 		return "id=" + id;
 	}

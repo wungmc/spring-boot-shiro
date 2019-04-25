@@ -11,8 +11,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  *
  */
 
-@EnableScheduling
 @SpringBootApplication
+@EnableScheduling
 @EnableAsync
 public class SpringBootShiroApplication {
 
